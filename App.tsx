@@ -1,21 +1,55 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Provider, rootStore } from "./models";
+import { Items } from "./pages/AllItems";
+import { Item } from "./pages/Item";
+
+export type RootStackParamList = {
+  Items: undefined;
+  Item: { id: string };
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+const linking = {
+  prefixes: ["https://example.com", "example://"],
+  config: {
+    screens: {
+      Items: "items",
+      Item: "items/:id",
+    },
+  },
+};
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#794BC4",
+  },
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <Provider value={rootStore}>
+        <NavigationContainer linking={linking} theme={MyTheme}>
+          <Stack.Navigator initialRouteName="Items" headerMode="screen">
+            <Stack.Screen
+              options={{ animationEnabled: true }}
+              name="Items"
+              component={Items}
+            />
+            <Stack.Screen
+              options={{ animationEnabled: true }}
+              name="Item"
+              component={Item}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

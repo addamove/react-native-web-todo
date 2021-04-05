@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screen render correctly 1`] = `
+<View
+  style={
+    Object {
+      "padding": "0.5rem",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#242424",
+      }
+    }
+  >
+    Test
+  </Text>
+</View>
+`;
